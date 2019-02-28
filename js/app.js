@@ -7,12 +7,20 @@ class Enemy {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
+    this.width = 40;
+    this.height = 40;
     this.y = y;
     this.speed = speed;
 }
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
     update(dt) {
+        if(this.x > 400) {
+            this.x = -100;
+        } else {
+            this.x += 100 * this.speed * dt;
+        }
+        
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
