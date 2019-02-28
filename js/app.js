@@ -78,9 +78,9 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 let allEnemies = [];
-let firstEnemy = new Enemy(0, 50);
-let secondEnemy = new Enemy(-100, 50);
-let thirdEnemy = new Enemy (-150, 135)
+let firstEnemy = new Enemy(0, 50, 10);
+let secondEnemy = new Enemy(-100, 50, 10);
+let thirdEnemy = new Enemy (-150, 135, 10)
 
 let player = new Player(200, 390);
 

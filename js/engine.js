@@ -79,7 +79,19 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy) {
+            if (player.x < enemy.x + enemy.width &&
+                player.x + player.width > enemy.x &&
+                player.y < enemy.y + enemy.height &&
+                player.height + player.y > enemy.y) {
+                 // collision detected!
+                removeLive();
+            }
+        });
     }
 
     /* This is called by the update function and loops through all of the
