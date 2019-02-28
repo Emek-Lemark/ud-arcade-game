@@ -74,6 +74,24 @@ class Player {
 }
 
 
+// Character Images
+const charImages = document.querySelectorAll(".char-image");
+    for(let i = 0; i < charImages.length; i++) {
+// Set the default Character Image
+    charImages[0].classList.add("active");
+// Loop over Character Images and Change the Selected one based on a 'Click' event
+    charImages[i].addEventListener("click", function() {
+// Change the player image
+    player.image = this.getAttribute("data-image");
+// Remove class `active`from all character images
+    charImages.forEach(function(image) {
+    image.classList.remove("active");
+})
+// Add class `active` to the selected character image
+        this.classList.add("active");
+    });
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
