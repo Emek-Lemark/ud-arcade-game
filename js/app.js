@@ -19,8 +19,8 @@ class Enemy {
             this.x = -100;
         } else {
             this.x += 100 * this.speed * dt;
-        }
-        
+    }
+
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -42,15 +42,33 @@ class Player {
         this.y = y;
     }
 
-    update() {
+    update(dt) {
+        return this.y;
 
     }
 
-    render(){
+    render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
-    handleInput(key){
+    handleInput(keyCode) {
+        if (keyCode == `left`) {
+            if(this.x > 0) {
+                this.x -= 100;
+            }
+        } else if (keyCode == `right`) {
+            if(this.x < 400) {
+                this.x += 100;
+            }
+        } else if (keyCode == `up`) {
+            if (this.y > -35) {
+                this.y -= 85;
+            }
+        } else if (keyCode == `down`){
+            if( this.y < 390) {
+                this.y += 85;
+            }
+        }
 
     }
 }
@@ -60,8 +78,11 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 let allEnemies = [];
+let firstEnemy = new Enemy(0, 50);
+let secondEnemy = new Enemy(-100, 50);
+let thirdEnemy = new Enemy (-150, 135)
 
-let player = new Player();
+let player = new Player(200, 390);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

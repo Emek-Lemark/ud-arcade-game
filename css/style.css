@@ -5,6 +5,6 @@ body {
 .game-character h2 {
     margin-bottom: 0;
 }
-.game-starter .char-image {
+.game-character .char-image.active {
     background: url(../images/Selector.png);
 }
