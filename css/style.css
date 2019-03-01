@@ -1,3 +1,16 @@
 body {
     text-align: center;
+    font-family: Lato, sans-serif;
+}
+
+canvas {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.game-character h2 {
+    margin-bottom: 0;
+}
+.game-character .char-image.active {
+    background: url(../images/Selector.png);
 }

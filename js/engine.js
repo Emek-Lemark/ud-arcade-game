@@ -23,9 +23,10 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+        var numColumns = 13;
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = 1200;
+    canvas.height = 1000;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -94,6 +95,9 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        allCollectibles.forEach(function(collectible) {
+            collectible.update(dt);
+    });
     }
 
     /* This function initially draws the "game level", it will then call
@@ -107,15 +111,19 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+        'images/water-block.png', // Top row is water
+        'images/stone-block.png', // Row 1 of 8 of stone
+        'images/stone-block.png', // Row 2 of 8 of stone
+        'images/stone-block.png', // Row 3 of 8 of stone
+        'images/stone-block.png', // Row 4 of 8 of stone
+        'images/stone-block.png', // Row 6 of 8 of stone
+        'images/stone-block.png', // Row 7 of 8 of stone
+        'images/stone-block.png', // Row 8 of 8 of stone
+        'images/grass-block.png', // Row 1 of 2 of grass
+        'images/grass-block.png', // Row 2 of 2 of grass
             ],
-            numRows = 6,
-            numCols = 5,
+            numRows = 10,
+            numCols = numColumns,
             row, col;
 
         // Before drawing, clear existing canvas
@@ -139,6 +147,7 @@ var Engine = (function(global) {
         }
 
         renderEntities();
+        renderCollectibles();
     }
 
     /* This function is called by the render function and is called on each game
@@ -156,6 +165,33 @@ var Engine = (function(global) {
         player.render();
     }
 
+
+
+// Character Images
+    let charImages = document.querySelectorAll(".char-image");
+    for(let i = 0; i < charImages.length; i++) {
+// Set the default Character Image
+    charImages[0].classList.add("active");
+// Loop over Character Images and Change the Selected one based on a 'Click' event
+    charImages[i].addEventListener("click", function() {
+// Change the player image
+    player.sprite = this.getAttribute("data-image");
+// Remove class `active`from all character images
+    charImages.forEach(function(image) {
+    image.classList.remove("active");
+})
+// Add class `active` to the selected character image
+        this.classList.add("active");
+    });
+}
+
+
+// Function to render all the gems
+    function renderCollectibles() {
+    allCollectibles.forEach(function(collectible) {
+    collectible.render();
+    });
+  }
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
@@ -173,7 +209,14 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png',
+        'images/gem-blue.png',
+        'images/gem-green.png',
+        'images/gem-orange.png',
     ]);
     Resources.onReady(init);
 
