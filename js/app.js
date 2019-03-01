@@ -1,8 +1,12 @@
 // Declare Glabal Variables
 const tileWidth = 101;
 const tileHeight = 85;
-const canvasHeight = 956;
+const canvasHeight = 1000;
 const canvasWidth = 1305;
+const playerWidth = 65;
+const playerHeight = 50;
+const numColumns = 13;
+const maxY = (tileHeight * 10) + (tileHeight / 2);
 
 
 
@@ -47,15 +51,34 @@ class Enemy {
 // a handleInput() method.
 class Player {
     constructor(x, y) {
-        this.sprite = 'images/char-boy.png';
-        this.x = x;
-        this.y = y;
-        this.width = 50;
-        this.height = 85;
+    this.sprite = 'images/char-boy.png';
+// Place player in the middle of the seventh tile from left horizontally
+    this.x = (tileWidth * 5) + (tileWidth / 2) - (playerWidth / 2);
+// Place player in the middle of the eleventh tile from top vertically
+    this.y = (tileHeight * 9) + (tileHeight / 2) - (playerHeight / 2);
+// moveY and moveX for move direction, initially set to zero
+    this.moveY = 0;
+    this.moveX = 0;
+    this.width = playerWidth;
+    this.height = 85;
     }
 
     update(dt) {
-        return this.y;
+    // Calculate the next X position based on direction
+    let nextX = this.x + (this.moveX * tileWidth);
+    // Update position only if within canvas bounds
+    if (nextX <= numColumns*tileWidth && nextX >= 0) {
+        this.x = nextX;
+    }
+    // Calculate the next Y position based on direction
+    var nextY = this.y + (this.moveY * tileHeight);
+    // Update position only if within canvas bounds
+    if (nextY <= maxY && nextY >= 0 ) {
+        this.y = nextY;
+    }
+    // After updating position, reset direction to zero
+    this.moveY = 0;
+    this.moveX = 0;
 
     }
 
@@ -65,25 +88,25 @@ class Player {
 
     handleInput(keyCode) {
         if (keyCode == `left`) {
-            if(this.x > 0) {
-                this.x -= 100;
-            }
+            this.moveY = 0; 
+            this.moveX = -1;
+            
         } else if (keyCode == `right`) {
-            if(this.x < 400) {
-                this.x += 100;
-            }
+            this.moveY = 0;
+            this.moveX = 1;
+            
         } else if (keyCode == `up`) {
-            if (this.y > -35) {
-                this.y -= 85;
-            }
+            this.moveY = -1;
+            this.moveX = 0;
+            
         } else if (keyCode == `down`){
-            if( this.y < 390) {
-                this.y += 85;
+            this.moveY = 1;
+            this.moveX = 0;
             }
         }
 
     }
-}
+
 
 // variable to store collectible images
 const collectibleSprite = [
