@@ -1,3 +1,10 @@
+// Declare Glabal Variables
+const tileWidth = 101;
+const tileHeight = 85;
+
+
+
+
 // Enemies our player must avoid
 class Enemy {
     constructor(x, y, speed) {
@@ -10,12 +17,12 @@ class Enemy {
     this.width = 40;
     this.height = 40;
     this.y = y;
-    this.speed = speed;
+    this.speed = Math.max(Math.random(), 0.5);
 }
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
     update(dt) {
-        if(this.x > 400) {
+        if(this.x > (canvasWidth)) {
             this.x = -100;
         } else {
             this.x += 100 * this.speed * dt;
@@ -75,24 +82,42 @@ class Player {
     }
 }
 
+// variable to store collectible images
+const collectibleSprite = [
+    'images/gem-blue.png',
+    'images/gem-green.png',
+    'images/gem-orange.png'
 
-// Character Images
-    let charImages = document.querySelectorAll(".char-image");
-    for(let i = 0; i < charImages.length; i++) {
-// Set the default Character Image
-    charImages[0].classList.add("active");
-// Loop over Character Images and Change the Selected one based on a 'Click' event
-    charImages[i].addEventListener("click", function() {
-    // Change the player image
-    player.sprite = this.getAttribute("data-image");
-// Remove class `active`from all character images
-    charImages.forEach(function(image) {
-    image.classList.remove("active");
-})
-// Add class `active` to the selected character image
-        this.classList.add("active");
-    });
+];
+// collectible class
+class Collectible {
+    constructor(x, y, collectibleType) {
+    // X and Y position of the gem
+    this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
+    this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+
+    //50 points scored for blue, 100 for green and 150 for orange gem.
+    this.point = (collectibleType + 1) * 50;
+    this.sprite = collectibleSprite[collectibleType];
+    this.width = 50;
+    this.height = 55;
+
+    }
+    update(dt) {
+    // Change collectible position 
+    if (Math.random() < 0.001) {
+        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
+        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+    }
 }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);    
+
+    }
+
+}
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -103,6 +128,16 @@ let secondEnemy = new Enemy(-100, 50, 10);
 let thirdEnemy = new Enemy (-150, 135, 10)
 
 let player = new Player(200, 390);
+
+// Number of collectibles, anywhere between 5 to 9
+const numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
+let allCollectibles = [];
+for (let i = 0; i < numberOfCollectibles; i++) {
+// Generate collectible type randomly
+let collectibleType = Math.floor((Math.random() * 3));
+allCollectibles.push(new Collectible(collectibleType));
+}
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

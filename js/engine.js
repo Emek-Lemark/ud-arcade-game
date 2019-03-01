@@ -158,6 +158,23 @@ var Engine = (function(global) {
 
 
 
+// Character Images
+    let charImages = document.querySelectorAll(".char-image");
+    for(let i = 0; i < charImages.length; i++) {
+// Set the default Character Image
+    charImages[0].classList.add("active");
+// Loop over Character Images and Change the Selected one based on a 'Click' event
+    charImages[i].addEventListener("click", function() {
+    // Change the player image
+    player.sprite = this.getAttribute("data-image");
+// Remove class `active`from all character images
+    charImages.forEach(function(image) {
+    image.classList.remove("active");
+})
+// Add class `active` to the selected character image
+        this.classList.add("active");
+    });
+}
 
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
@@ -180,7 +197,7 @@ var Engine = (function(global) {
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
-        'images/char-princess-girl.png'
+        'images/char-princess-girl.png',
     ]);
     Resources.onReady(init);
 
