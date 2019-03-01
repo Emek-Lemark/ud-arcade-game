@@ -1,7 +1,8 @@
 // Declare Glabal Variables
 const tileWidth = 101;
 const tileHeight = 85;
-
+const canvasHeight = 956;
+const canvasWidth = 1305;
 
 
 
@@ -13,19 +14,21 @@ class Enemy {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = x;
+    this.x = -10;
     this.width = 40;
     this.height = 40;
-    this.y = y;
+    this.y = (Math.floor((Math.random() * 8)) * tileHeight) + tileHeight + (tileHeight / 2);
     this.speed = Math.max(Math.random(), 0.5);
+    this.step = 450;
 }
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
     update(dt) {
+        this.x = (this.x + (dt * this.speed * this.step)) % (canvasWidth + this.width);
+
         if(this.x > (canvasWidth)) {
-            this.x = -100;
-        } else {
-            this.x += 100 * this.speed * dt;
+        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + tileHeight + (tileHeight / 2);
+        this.speed = Math.max(Math.random(), 0.5);
     }
 
     // You should multiply any movement by the dt parameter
@@ -123,12 +126,12 @@ class Collectible {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 let allEnemies = [];
-let firstEnemy = new Enemy(0, 50, 10);
-let secondEnemy = new Enemy(-100, 50, 10);
-let thirdEnemy = new Enemy (-150, 135, 10)
-
 let player = new Player(200, 390);
 
+// Initiate enemies, might make number of enemies dynamic in future.
+for (let i = 0; i < 9; i++) {
+    allEnemies.push(new Enemy());
+}
 // Number of collectibles, anywhere between 5 to 9
 const numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
 let allCollectibles = [];
