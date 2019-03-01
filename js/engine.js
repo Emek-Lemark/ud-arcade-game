@@ -79,19 +79,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
-    }
-
-    function checkCollisions() {
-        allEnemies.forEach(function(enemy) {
-            if (player.x < enemy.x + enemy.width &&
-                player.x + player.width > enemy.x &&
-                player.y < enemy.y + enemy.height &&
-                player.height + player.y > enemy.y) {
-                 // collision detected!
-                removeLive();
-            }
-        });
+        // checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
@@ -168,6 +156,9 @@ var Engine = (function(global) {
         player.render();
     }
 
+
+
+
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
@@ -185,7 +176,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
     ]);
     Resources.onReady(init);
 
@@ -194,5 +189,4 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
-    global.canvas = canvas;
 })(this);

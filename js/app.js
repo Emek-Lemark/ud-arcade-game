@@ -40,6 +40,8 @@ class Player {
         this.sprite = 'images/char-boy.png';
         this.x = x;
         this.y = y;
+        this.width = 50;
+        this.height = 85;
     }
 
     update(dt) {
@@ -75,14 +77,14 @@ class Player {
 
 
 // Character Images
-const charImages = document.querySelectorAll(".char-image");
+    let charImages = document.querySelectorAll(".char-image");
     for(let i = 0; i < charImages.length; i++) {
 // Set the default Character Image
     charImages[0].classList.add("active");
 // Loop over Character Images and Change the Selected one based on a 'Click' event
     charImages[i].addEventListener("click", function() {
-// Change the player image
-    player.image = this.getAttribute("data-image");
+    // Change the player image
+    player.sprite = this.getAttribute("data-image");
 // Remove class `active`from all character images
     charImages.forEach(function(image) {
     image.classList.remove("active");
