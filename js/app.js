@@ -52,9 +52,9 @@ class Enemy {
 class Player {
     constructor(x, y) {
     this.sprite = 'images/char-boy.png';
-// Place player in the middle of the seventh tile from left horizontally
+// Place player in the middle of the sixth tile from left horizontally
     this.x = (tileWidth * 5) + (tileWidth / 2) - (playerWidth / 2);
-// Place player in the middle of the eleventh tile from top vertically
+// Place player in the middle of the tenth tile from top vertically
     this.y = (tileHeight * 9) + (tileHeight / 2) - (playerHeight / 2);
 // moveY and moveX for move direction, initially set to zero
     this.moveY = 0;
@@ -117,23 +117,24 @@ const collectibleSprite = [
 ];
 // collectible class
 class Collectible {
-    constructor(x, y, collectibleType) {
+    constructor(collectibleType) {
     // X and Y position of the gem
     this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
     this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+    this.width = 50;
+    this.height = 55;
 
     //50 points scored for blue, 100 for green and 150 for orange gem.
     this.point = (collectibleType + 1) * 50;
     this.sprite = collectibleSprite[collectibleType];
-    this.width = 50;
-    this.height = 55;
+
 
     }
     update(dt) {
     // Change collectible position 
     if (Math.random() < 0.001) {
-        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
-        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+        this.x = (Math.floor((Math.random() * 7)) * tileWidth) + (tileWidth * 1.5);
+        this.y = (Math.floor((Math.random() * 7)) * tileHeight) + (tileHeight * 1.5);
     }
 }
 
@@ -143,7 +144,6 @@ class Collectible {
     }
 
 }
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
