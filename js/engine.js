@@ -23,9 +23,10 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+        var numColumns = 13;
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = 1300;
+    canvas.height = 900;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -94,6 +95,9 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        allCollectibles.forEach(function(collectible) {
+            collectible.update(dt);
+    });
     }
 
     /* This function initially draws the "game level", it will then call
@@ -107,15 +111,20 @@ var Engine = (function(global) {
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+        'images/water-block.png', // Top row is water
+        'images/stone-block.png', // Row 1 of 8 of stone
+        'images/stone-block.png', // Row 2 of 8 of stone
+        'images/stone-block.png', // Row 3 of 8 of stone
+        'images/stone-block.png', // Row 4 of 8 of stone
+        'images/stone-block.png', // Row 5 of 8 of stone
+        'images/stone-block.png', // Row 6 of 8 of stone
+        'images/stone-block.png', // Row 7 of 8 of stone
+        'images/stone-block.png', // Row 8 of 8 of stone
+        'images/grass-block.png', // Row 1 of 2 of grass
+        'images/grass-block.png' // Row 2 of 2 of grass
             ],
-            numRows = 6,
-            numCols = 5,
+            numRows = 11,
+            numCols = numColumns,
             row, col;
 
         // Before drawing, clear existing canvas
@@ -156,6 +165,12 @@ var Engine = (function(global) {
         player.render();
     }
 
+// Function to render all the gems
+  function renderCollectibles() {
+    allCollectibles.forEach(function(collectible) {
+      collectible.render();
+    });
+  }
 
 
 // Character Images
