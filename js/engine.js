@@ -99,7 +99,7 @@ const Engine = (function(global) {
         player.update();
         allCollectibles.forEach(function(collectible) {
             collectible.update(dt);
-    });
+        });
     }
 
     /* This function checks collision between two objects obj1 and obj2 and 
@@ -122,17 +122,17 @@ const Engine = (function(global) {
      * all the enemies to find out if player has collided with any one 
      * of them.
      */
-  function checkCollisionsWithEnemy() {
-    allEnemies.forEach(function(enemy) {
-      if (checkCollisions(enemy, player)) {
-        lifeLeft -= 1;
-        if (lifeLeft === 0) {
+    function checkCollisionsWithEnemy() {
+        allEnemies.forEach(function(enemy) {
+         if (checkCollisions(enemy, player)) {
+            lifeLeft -= 1;
+         if (lifeLeft === 0) {
           init();
         }
         resetPlayer();
-      }
-    });
-  }
+            }
+        });
+    }
 
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -202,18 +202,18 @@ const Engine = (function(global) {
 
 
     // Character Images
-    let charImages = document.querySelectorAll(".char-image");
-    for(let i = 0; i < charImages.length; i++) {
+        let charImages = document.querySelectorAll(".char-image");
+        for(let i = 0; i < charImages.length; i++) {
     // Set the default Character Image
-    charImages[0].classList.add("active");
+        charImages[0].classList.add("active");
     // Loop over Character Images and Change the Selected one based on a 'Click' event
-    charImages[i].addEventListener("click", function() {
+        charImages[i].addEventListener("click", function() {
     // Change the player image
-    player.sprite = this.getAttribute("data-image");
+        player.sprite = this.getAttribute("data-image");
     // Remove class `active`from all character images
-    charImages.forEach(function(image) {
-    image.classList.remove("active");
-    })
+        charImages.forEach(function(image) {
+        image.classList.remove("active");
+        })
     // Add class `active` to the selected character image
         this.classList.add("active");
         });
@@ -221,10 +221,10 @@ const Engine = (function(global) {
 
     // Function to render all the gems
     function renderCollectibles() {
-    allCollectibles.forEach(function(collectible) {
-    collectible.render();
-    });
-  }
+        allCollectibles.forEach(function(collectible) {
+        collectible.render();
+        });
+    }
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
@@ -233,10 +233,21 @@ const Engine = (function(global) {
         // noop
     }
 
-    // Function to reset player position.
-  function resetPlayer() {
-    player = new Player();
-  }
+    // Function to reset player position and collectibles.
+    function resetPlayer() {
+        player = new Player();
+        resetCollectibles();
+    }
+
+    // function to reset collectibles
+    function resetCollectibles() {
+        let numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
+        allCollectibles = [];
+        for (let i = 0; i < numberOfCollectibles; i++) {
+        let collectibleType = Math.floor((Math.random() * 3));
+        allCollectibles.push(new Collectible(collectibleType));
+        }
+    }
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
