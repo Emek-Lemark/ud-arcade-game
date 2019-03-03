@@ -26,7 +26,7 @@ const Engine = (function(global) {
         const numColumns = 13;
 
     let lifeLeft;
-    canvas.width = 1200;
+    canvas.width = 1305;
     canvas.height = 1000;
     doc.body.appendChild(canvas);
 
@@ -150,13 +150,14 @@ const Engine = (function(global) {
         'images/stone-block.png', // Row 2 of 8 of stone
         'images/stone-block.png', // Row 3 of 8 of stone
         'images/stone-block.png', // Row 4 of 8 of stone
+        'images/stone-block.png', // Row 5 of 8 of stone
         'images/stone-block.png', // Row 6 of 8 of stone
         'images/stone-block.png', // Row 7 of 8 of stone
         'images/stone-block.png', // Row 8 of 8 of stone
         'images/grass-block.png', // Row 1 of 2 of grass
         'images/grass-block.png', // Row 2 of 2 of grass
             ],
-            numRows = 10,
+            numRows = 11,
             numCols = numColumns,
             row, col;
 

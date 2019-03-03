@@ -46,10 +46,10 @@ class Enemy {
 class Player {
     constructor(x, y) {
     this.sprite = 'images/char-boy.png';
-// Place player in the middle of the sixth tile from left horizontally
-    this.x = (tileWidth * 5) + (tileWidth / 2) - (playerWidth / 2);
+// Place player in the middle of the seventh tile from left horizontally
+    this.x = (tileWidth * 5.85) + (tileWidth / 2) - (playerWidth / 2);
 // Place player in the middle of the tenth tile from top vertically
-    this.y = (tileHeight * 9) + (tileHeight / 2) - (playerHeight / 2);
+    this.y = (tileHeight * 9.5) + (tileHeight / 2) - (playerHeight / 2);
 // moveY and moveX for move direction, initially set to zero
     this.moveY = 0;
     this.moveX = 0;
