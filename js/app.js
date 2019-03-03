@@ -1,8 +1,7 @@
 // Declare Glabal Variables
 const tileWidth = 101;
 const tileHeight = 85;
-const tileHeightForBug = 80;
-const canvasHeight = 1000;
+const canvasHeight = 985;
 const canvasWidth = 1305;
 const playerWidth = 65;
 const playerHeight = 50;
@@ -113,18 +112,18 @@ class Collectible {
     this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
     this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
     this.width = 50;
-    this.height = 55;
+    this.height = 40;
 
-    //50 points scored for blue, 100 for green and 150 for orange gem.
-    this.point = (collectibleType + 1) * 50;
+    // 50 points scored for blue, 100 for green and 150 for orange gem.
+    this.score = (collectibleType + 1) * 50;
     this.sprite = collectibleSprite[collectibleType];
     }
 
     update(dt) {
     // Change collectible position 
-    if (Math.random() < 0.001) {
-        this.x = (Math.floor((Math.random() * 7)) * tileWidth) + (tileWidth * 1.5);
-        this.y = (Math.floor((Math.random() * 7)) * tileHeight) + (tileHeight * 1.5);
+    if (Math.random() < 0.002) {
+        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
+        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
     }
 }
 
@@ -138,7 +137,7 @@ class Collectible {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 let allEnemies = [];
-let player = new Player(200, 390);
+let player = new Player();
 
 // Initiate enemies, might make number of enemies dynamic in future.
 for (let i = 0; i < 9; i++) {
@@ -164,3 +163,11 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// Prevent the window from scrolling on arrow key press
+window.addEventListener('keydown', function(e) {
+    // keycodes for the space bar and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);

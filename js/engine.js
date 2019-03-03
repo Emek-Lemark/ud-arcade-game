@@ -26,9 +26,9 @@ const Engine = (function(global) {
         const numColumns = 13;
 
     let lifeLeft;
-    let score;
+    let scores;
     canvas.width = 1305;
-    canvas.height = 1000;
+    canvas.height = 985;
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -67,7 +67,7 @@ const Engine = (function(global) {
      */
     function init() {
         lifeLeft = 5;
-        score = 0;
+        scores = 0;
         reset();
         lastTime = Date.now();
         main();
@@ -85,6 +85,7 @@ const Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisionsWithEnemy();
+        checkScores();
     }
 
     /* This is called by the update function and loops through all of the
@@ -106,13 +107,13 @@ const Engine = (function(global) {
 
     /* This function checks collision between two objects obj1 and obj2 and 
      * returns a boolean value. This function is used by checkCollisionWithEnemy and
-     * checkPoints function.
+     * checkScores function.
      */
     function checkCollisions(object1, object2) {
         if (object1.x < object2.x + object2.width &&
-            object1.x + object1.width  > object2.x &&
+            object1.x + object1.width > object2.x &&
             object1.y < object2.y + object2.height &&
-            object1.y + object1.height > object2.y) {
+            object1.height + object1.y > object2.y) {
             console.log("Collision detected");
         return true;
     } else {
@@ -133,6 +134,27 @@ const Engine = (function(global) {
         }
         resetPlayer();
             }
+        });
+    }
+
+    /* This function is called by the update method. It checks if 
+     * the player has reached the water or has collected any gems
+     */
+    function checkScores() {
+    // If player has reached the water then add scores and reset player
+    if (player.y < 30) {
+        scores += 200;
+        resetPlayer();
+    }
+    // Check all gems if player is within collision distance
+    allCollectibles.forEach(function(collectible, index, array) {
+      if (checkCollisions(collectible, player)) {
+    // Player is within collision distance of collectible
+        console.log("Collected");
+        scores += collectible.score;
+    // Player has collected this gem, so remove it from array
+        array.splice(index, 1);
+        }
         });
     }
 
@@ -208,7 +230,7 @@ const Engine = (function(global) {
     // Function to render life left  of the player
     function renderLifeLeft() {
         const lifeImage = "images/heart-small.png";
-        const x = 1055;
+        const x = 1000;
         const y = 60;
         ctx.drawImage(Resources.get(lifeImage), x, y);
         ctx.font = "32px Comic Sans MS";
@@ -221,17 +243,15 @@ const Engine = (function(global) {
     // Function to render score scored by the player.
     function renderScore() {
         const scoreImage = "images/star-small.png";
-        const x = 1158;
+        const x = 1110;
         const y = 70;
         ctx.drawImage(Resources.get(scoreImage), x, y);
         ctx.font = "32px Comic Sans MS";
         ctx.fillStyle = "#FFFFFF";
         ctx.strokeStyle = "#dbdbdbd";
-        ctx.strokeText(score, 1140, 95);
-        ctx.fillText(score, 1140, 95);
+        ctx.strokeText(scores, 1140, 95);
+        ctx.fillText(scores, 1140, 95);
     }
-
-
 
     // Character Images
         let charImages = document.querySelectorAll(".char-image");
