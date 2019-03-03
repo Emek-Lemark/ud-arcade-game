@@ -1,6 +1,7 @@
 // Declare Glabal Variables
 const tileWidth = 101;
 const tileHeight = 85;
+const tileHeightForBug = 80;
 const canvasHeight = 1000;
 const canvasWidth = 1305;
 const playerWidth = 65;
@@ -17,11 +18,11 @@ class Enemy {
 // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = -10;
-    this.width = 40;
-    this.height = 40;
     this.y = (Math.floor((Math.random() * 8)) * tileHeight) + tileHeight + (tileHeight / 2);
     this.speed = Math.max(Math.random(), 0.5);
     this.step = 450;
+    this.width = 100;
+    this.height = 40;
 }
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -54,7 +55,8 @@ class Player {
     this.moveY = 0;
     this.moveX = 0;
     this.width = playerWidth;
-    this.height = 85;
+    this.height = 30;
+
 }
 
     update(dt) {
@@ -98,13 +100,13 @@ class Player {
             }
         }
 }
-// variable to store collectible images
+// Variable to store collectible images
 const collectibleSprite = [
     'images/gem-blue.png',
     'images/gem-green.png',
     'images/gem-orange.png'
 ];
-// collectible class
+// Collectible class
 class Collectible {
     constructor(collectibleType) {
     // X and Y position of the gem
