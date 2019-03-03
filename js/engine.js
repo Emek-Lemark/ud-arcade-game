@@ -13,18 +13,19 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
+const Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas element's height/width and add it to the DOM.
      */
-    var doc = global.document,
+    let doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
-        var numColumns = 13;
+        const numColumns = 13;
 
+    let lifeLeft;
     canvas.width = 1200;
     canvas.height = 1000;
     doc.body.appendChild(canvas);
@@ -64,6 +65,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        lifeLeft = 5;
         reset();
         lastTime = Date.now();
         main();
@@ -80,7 +82,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisionsWithEnemy();
     }
 
     /* This is called by the update function and loops through all of the
@@ -99,6 +101,38 @@ var Engine = (function(global) {
             collectible.update(dt);
     });
     }
+
+    /* This function checks collision between two objects obj1 and obj2 and 
+     * returns a boolean value. This function is used by checkCollisionWithEnemy and
+     * checkPoints function.
+     */
+    function checkCollisions(object1, object2) {
+        if (object1.x < object2.x + object2.width && 
+            object1.x + object1.width > object2.x &&
+            object1.y < object2.y + object2.height &&
+            object1.height + object1.y > object2.y) {
+            console.log("Collision detected");
+        return true;
+    } else {
+      return false;
+        }
+    }
+
+    /* This function is called by the update function and loops through
+     * all the enemies to find out if player has collided with any one 
+     * of them.
+     */
+  function checkCollisionsWithEnemy() {
+    allEnemies.forEach(function(enemy) {
+      if (checkCollisions(enemy, player)) {
+        lifeLeft -= 1;
+        if (lifeLeft === 0) {
+          init();
+        }
+        resetPlayer();
+      }
+    });
+  }
 
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -167,26 +201,25 @@ var Engine = (function(global) {
 
 
 
-// Character Images
+    // Character Images
     let charImages = document.querySelectorAll(".char-image");
     for(let i = 0; i < charImages.length; i++) {
-// Set the default Character Image
+    // Set the default Character Image
     charImages[0].classList.add("active");
-// Loop over Character Images and Change the Selected one based on a 'Click' event
+    // Loop over Character Images and Change the Selected one based on a 'Click' event
     charImages[i].addEventListener("click", function() {
-// Change the player image
+    // Change the player image
     player.sprite = this.getAttribute("data-image");
-// Remove class `active`from all character images
+    // Remove class `active`from all character images
     charImages.forEach(function(image) {
     image.classList.remove("active");
-})
-// Add class `active` to the selected character image
+    })
+    // Add class `active` to the selected character image
         this.classList.add("active");
-    });
-}
+        });
+    }
 
-
-// Function to render all the gems
+    // Function to render all the gems
     function renderCollectibles() {
     allCollectibles.forEach(function(collectible) {
     collectible.render();
@@ -199,6 +232,11 @@ var Engine = (function(global) {
     function reset() {
         // noop
     }
+
+    // Function to reset player position.
+  function resetPlayer() {
+    player = new Player();
+  }
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when

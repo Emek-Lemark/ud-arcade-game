@@ -8,15 +8,13 @@ const playerHeight = 50;
 const numColumns = 13;
 const maxY = (tileHeight * 10) + (tileHeight / 2);
 
-
-
 // Enemies our player must avoid
 class Enemy {
     constructor(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+// Variables applied to each of our instances go here,
+// we've provided one for you to get started
+// The image/sprite for our enemies, this uses
+// a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = -10;
     this.width = 40;
@@ -28,24 +26,20 @@ class Enemy {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
     update(dt) {
-        this.x = (this.x + (dt * this.speed * this.step)) % (canvasWidth + this.width);
-
-        if(this.x > (canvasWidth)) {
+    this.x = (this.x + (dt * this.speed * this.step)) % (canvasWidth + this.width);
+    if(this.x > (canvasWidth)) {
         this.y = (Math.floor((Math.random() * 8)) * tileHeight) + tileHeight + (tileHeight / 2);
         this.speed = Math.max(Math.random(), 0.5);
     }
-
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+// You should multiply any movement by the dt parameter
+// which will ensure the game runs at the same speed for
+// all computers.
 }
-
 // Draw the enemy on the screen, required method for game
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 }
-
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -61,7 +55,7 @@ class Player {
     this.moveX = 0;
     this.width = playerWidth;
     this.height = 85;
-    }
+}
 
     update(dt) {
     // Calculate the next X position based on direction
@@ -79,8 +73,7 @@ class Player {
     // After updating position, reset direction to zero
     this.moveY = 0;
     this.moveX = 0;
-
-    }
+}
 
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -104,16 +97,12 @@ class Player {
             this.moveX = 0;
             }
         }
-
-    }
-
-
+}
 // variable to store collectible images
 const collectibleSprite = [
     'images/gem-blue.png',
     'images/gem-green.png',
     'images/gem-orange.png'
-
 ];
 // collectible class
 class Collectible {
@@ -127,9 +116,8 @@ class Collectible {
     //50 points scored for blue, 100 for green and 150 for orange gem.
     this.point = (collectibleType + 1) * 50;
     this.sprite = collectibleSprite[collectibleType];
-
-
     }
+
     update(dt) {
     // Change collectible position 
     if (Math.random() < 0.001) {
@@ -138,13 +126,12 @@ class Collectible {
     }
 }
 
-    render() {
+   render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);    
 
     }
 
 }
-
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -160,11 +147,9 @@ const numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
 let allCollectibles = [];
 for (let i = 0; i < numberOfCollectibles; i++) {
 // Generate collectible type randomly
-let collectibleType = Math.floor((Math.random() * 3));
-allCollectibles.push(new Collectible(collectibleType));
+    let collectibleType = Math.floor((Math.random() * 3));
+    allCollectibles.push(new Collectible(collectibleType));
 }
-
-
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
