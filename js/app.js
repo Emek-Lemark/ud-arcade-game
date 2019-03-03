@@ -65,7 +65,7 @@ class Player {
         this.x = nextX;
     }
     // Calculate the next Y position based on direction
-    var nextY = this.y + (this.moveY * tileHeight);
+    let nextY = this.y + (this.moveY * tileHeight);
     // Update position only if within canvas bounds
     if (nextY <= maxY && nextY >= 0 ) {
         this.y = nextY;

@@ -262,13 +262,15 @@ const Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        resetPlayer();
+        resetEnemies();
     }
 
     // Function to reset player position and collectibles.
     function resetPlayer() {
         player = new Player();
         resetCollectibles();
+        resetEnemies();
     }
 
     // Function to reset collectibles
@@ -278,6 +280,14 @@ const Engine = (function(global) {
         for (let i = 0; i < numberOfCollectibles; i++) {
         let collectibleType = Math.floor((Math.random() * 3));
         allCollectibles.push(new Collectible(collectibleType));
+        }
+    }
+
+    // Function to reset Enemies
+     function resetEnemies() {
+        allEnemies = [];
+        for (let i = 0; i < 9; i++) {
+            allEnemies.push(new Enemy());
         }
     }
 
