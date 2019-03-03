@@ -182,6 +182,7 @@ const Engine = (function(global) {
 
         renderEntities();
         renderCollectibles();
+        renderLifeLeft();
     }
 
     /* This function is called by the render function and is called on each game
@@ -198,6 +199,20 @@ const Engine = (function(global) {
 
         player.render();
     }
+
+
+    // Function to render life left  of the player
+    function renderLifeLeft() {
+        const lifeImage = "images/heart-small.png";
+        const x = 1055;
+        const y = 60;
+        ctx.drawImage(Resources.get(lifeImage), x, y);
+        ctx.font = "32px Comic Sans MS";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.strokeStyle = "#dbdbdbd";
+        ctx.strokeText(lifeLeft, 1040, 92);
+        ctx.fillText(lifeLeft, 1040, 92);
+  }
 
 
 
@@ -266,6 +281,8 @@ const Engine = (function(global) {
         'images/gem-blue.png',
         'images/gem-green.png',
         'images/gem-orange.png',
+        'images/heart-small.png',
+
     ]);
     Resources.onReady(init);
 
