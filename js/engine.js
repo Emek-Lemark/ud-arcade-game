@@ -26,6 +26,7 @@ const Engine = (function(global) {
         const numColumns = 13;
 
     let lifeLeft;
+    let score;
     canvas.width = 1305;
     canvas.height = 1000;
     doc.body.appendChild(canvas);
@@ -66,6 +67,7 @@ const Engine = (function(global) {
      */
     function init() {
         lifeLeft = 5;
+        score = 0;
         reset();
         lastTime = Date.now();
         main();
@@ -184,6 +186,7 @@ const Engine = (function(global) {
         renderEntities();
         renderCollectibles();
         renderLifeLeft();
+        renderScore();
     }
 
     /* This function is called by the render function and is called on each game
@@ -213,7 +216,20 @@ const Engine = (function(global) {
         ctx.strokeStyle = "#dbdbdbd";
         ctx.strokeText(lifeLeft, 1040, 92);
         ctx.fillText(lifeLeft, 1040, 92);
-  }
+    }
+    
+    // Function to render score scored by the player.
+    function renderScore() {
+        const scoreImage = "images/star-small.png";
+        const x = 1158;
+        const y = 70;
+        ctx.drawImage(Resources.get(scoreImage), x, y);
+        ctx.font = "32px Comic Sans MS";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.strokeStyle = "#dbdbdbd";
+        ctx.strokeText(score, 1140, 95);
+        ctx.fillText(score, 1140, 95);
+    }
 
 
 
@@ -255,7 +271,7 @@ const Engine = (function(global) {
         resetCollectibles();
     }
 
-    // function to reset collectibles
+    // Function to reset collectibles
     function resetCollectibles() {
         let numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
         allCollectibles = [];
@@ -283,6 +299,7 @@ const Engine = (function(global) {
         'images/gem-green.png',
         'images/gem-orange.png',
         'images/heart-small.png',
+        "images/star-small.png"
 
     ]);
     Resources.onReady(init);
