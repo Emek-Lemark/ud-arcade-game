@@ -109,8 +109,8 @@ const collectibleSprite = [
 class Collectible {
     constructor(collectibleType) {
     // X and Y position of the gem
-    this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
-    this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+    this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 2);
+    this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 2);
     this.width = 50;
     this.height = 40;
 
@@ -122,8 +122,8 @@ class Collectible {
     update(dt) {
     // Change collectible position 
     if (Math.random() < 0.002) {
-        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
-        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 2);
+        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 2);
     }
 }
 
@@ -144,7 +144,7 @@ for (let i = 0; i < 9; i++) {
     allEnemies.push(new Enemy());
 }
 // Number of collectibles, anywhere between 5 to 9
-const numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
+let numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
 let allCollectibles = [];
 for (let i = 0; i < numberOfCollectibles; i++) {
 // Generate collectible type randomly
@@ -171,3 +171,48 @@ window.addEventListener('keydown', function(e) {
         e.preventDefault();
     }
 }, false);
+
+
+//Choose your character
+let src1 = 'images/char-horn-girl.png';
+let src2 ='images/char-cat-girl.png';
+let src3 = 'images/char-boy.png';
+let src4 ='images/char-princess-girl.png';
+// Character Images
+
+let charImages = document.querySelectorAll(".char-image");
+    for(let i = 0; i < charImages.length; i++) {
+// Set the default Character Image
+    charImages[0].classList.add("active");
+// Loop over Character Images and Change the Selected one based on a 'Click' event
+    charImages[i].addEventListener("click", function() {
+// Change the player image
+    player.sprite = this.getAttribute("data-image");
+// Remove class `active`from all character images
+    charImages.forEach(function(image) {
+    image.classList.remove("active");
+    })
+// Add class `active` to the selected character image
+    this.classList.add("active");
+    });
+}
+
+function chooseCha1(c){
+  player.sprite=c;
+};
+
+function chooseCha2(c){
+  player.sprite=c;
+};
+
+function chooseCha3(c){
+  player.sprite=c;
+};
+
+function chooseCha4(c){
+  player.sprite=c;
+};
+
+function chooseCha5(c){
+  player.sprite=c;
+};

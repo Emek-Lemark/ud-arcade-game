@@ -12,7 +12,8 @@
  * This engine makes the canvas' context (ctx) object globally available to make
  * writing app.js a little simpler to work with.
  */
-
+var begining=function(){ //I want to start after click in button Start
+var ChoiceStart = document.getElementById("startpage");
 const Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -99,10 +100,10 @@ const Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
-        allCollectibles.forEach(function(collectible) {
-            collectible.update(dt);
-        });
+        if(player.update() === -35) {
+        // Reset the player position!
+        player.y = 390;
+        }
     }
 
     /* This function checks collision between two objects obj1 and obj2 and 
@@ -142,7 +143,7 @@ const Engine = (function(global) {
      */
     function checkScores() {
     // If player has reached the water then add scores and reset player
-    if (player.y < 30) {
+    if (player.y < 61) {
         scores += 200;
         resetPlayer();
     }
@@ -181,7 +182,7 @@ const Engine = (function(global) {
         'images/grass-block.png', // Row 1 of 2 of grass
         'images/grass-block.png', // Row 2 of 2 of grass
             ],
-            numRows = 11,
+            numRows = 10,
             numCols = numColumns,
             row, col;
 
@@ -253,23 +254,6 @@ const Engine = (function(global) {
         ctx.fillText(scores, 1140, 95);
     }
 
-    // Character Images
-        let charImages = document.querySelectorAll(".char-image");
-        for(let i = 0; i < charImages.length; i++) {
-    // Set the default Character Image
-        charImages[0].classList.add("active");
-    // Loop over Character Images and Change the Selected one based on a 'Click' event
-        charImages[i].addEventListener("click", function() {
-    // Change the player image
-        player.sprite = this.getAttribute("data-image");
-    // Remove class `active`from all character images
-        charImages.forEach(function(image) {
-        image.classList.remove("active");
-        })
-    // Add class `active` to the selected character image
-        this.classList.add("active");
-        });
-    }
 
     // Function to render all the gems
     function renderCollectibles() {
@@ -339,4 +323,6 @@ const Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
-})(this);
+    ctx.imageSmoothingEnabled = false;
+    ChoiceStart.style.display = 'none';
+})(this);};

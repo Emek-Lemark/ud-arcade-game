@@ -7,16 +7,18 @@
 </head>
 <body> 
 	
-	 <section class="game-character">
-        <h2>Select your Character</h2>
-        <img class="char-image" src="images/char-boy.png" data-image="images/char-boy.png">
-        <img class="char-image" src="images/char-cat-girl.png" data-image="images/char-cat-girl.png">
-        <img class="char-image" src="images/char-horn-girl.png" data-image="images/char-horn-girl.png">
-        <img class="char-image" src="images/char-pink-girl.png" data-image="images/char-pink-girl.png">
-        <img class="char-image" src="images/char-princess-girl.png" data-image="images/char-princess-girl.png">
-    </section>
+  <div id="startpage">
+  <h3>Instructions:</h3>
+    <p>Use your mouse to select your character <br> then click start to begin. Have Fun! </p>
+    <div class="characters">
+      <img id="character1" class= "char-image" onclick="chooseCha1(src1);"  src='images/char-horn-girl.png' alt="char-horn-girl">
+      <img id="character2"  class= "char-image" onclick="chooseCha2(src2);"  src='images/char-cat-girl.png' alt="char-cat-girl">
+      <img id="character3"  class= "char-image" onclick="chooseCha3(src3);"  src='images/char-boy.png' alt="char-boy">
+      <img id="character4" class= "char-image" onclick="chooseCha4(src4);"  src='images/char-princess-girl.png' alt="princess-girl">
+    </div>
+    <button  id="start" onclick="begining()">START</button>
+  </div>
     <main class="game-container">
-        </section>
     </main> 
     <script src="js/resources.js"></script>
     <script src="js/engine.js"></script>
