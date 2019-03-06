@@ -33,7 +33,25 @@ const Engine = (function(global) {
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     doc.body.appendChild(canvas);
-    /* This function serves as the kickoff point for the game loop itself
+
+    // Code to play the background music, uses Howler.js for playing sound
+    var backgroundMusic = new Howl({
+    src: ['sound/zelda-chill.ogg', 'sound/zelda-chill.mp3'],
+    autoplay: false,
+    loop: true,
+    volume: 0.2,
+    });
+    // Start the background music
+    backgroundMusic.play();
+    // This defines the sound played when collecting gems
+    var collectibleSound = new Howl({
+    src: ['sound/definite.mp3'],
+    autoplay: false,
+    loop: false,
+    volume: 1,
+  });
+
+  /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
     function main() {
@@ -102,6 +120,8 @@ const Engine = (function(global) {
     // Player is within collision distance of collectible
         console.log("Collected");
         scores += collectible.score;
+    //Play sound when player collects gem
+        collectibleSound.play();
     // Player has collected this gem, so remove it from array
         array.splice(index, 1);
             }
