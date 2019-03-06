@@ -12,8 +12,8 @@
  * This engine makes the canvas' context (ctx) object globally available to make
  * writing app.js a little simpler to work with.
  */
-var begin=function(){ //I want to start after click in button Start
-var ChoiceStart = document.getElementById("startpage");
+const begin =function(){ //I want to start after click in button Start
+const ChoiceStart = document.getElementById("startpage");
 const Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -305,10 +305,6 @@ const Engine = (function(global) {
         'images/grass-block.png',
         'images/bug.png',
         'images/char-boy.png',
-        'images/char-cat-girl.png',
-        'images/char-horn-girl.png',
-        'images/char-pink-girl.png',
-        'images/char-princess-girl.png',
         'images/gem-blue.png',
         'images/gem-green.png',
         'images/gem-orange.png',
