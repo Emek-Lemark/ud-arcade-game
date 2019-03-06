@@ -12,7 +12,7 @@
  * This engine makes the canvas' context (ctx) object globally available to make
  * writing app.js a little simpler to work with.
  */
-var begining=function(){ //I want to start after click in button Start
+var begin=function(){ //I want to start after click in button Start
 var ChoiceStart = document.getElementById("startpage");
 const Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
@@ -25,13 +25,14 @@ const Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
         const numColumns = 13;
+        const canvasHeight = 985;
+        const canvasWidth = 1305;
 
     let lifeLeft;
     let scores;
-    canvas.width = 1305;
-    canvas.height = 985;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
     doc.body.appendChild(canvas);
-
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
@@ -61,7 +62,6 @@ const Engine = (function(global) {
          */
         win.requestAnimationFrame(main);
     }
-
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
@@ -73,7 +73,6 @@ const Engine = (function(global) {
         lastTime = Date.now();
         main();
     }
-
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -88,7 +87,26 @@ const Engine = (function(global) {
         checkCollisionsWithEnemy();
         checkScores();
     }
-
+    /* This function is called by the update method. It checks if 
+     * the player has reached the water or has collected any gems
+     */
+    function checkScores() {
+    // If player has reached the last brick then add scores and reset player
+    if (player.y <= 60) {
+        scores += 200;
+        resetPlayer();
+    }
+    // Check all gems if player is within collision distance
+    allCollectibles.forEach(function(collectible, index, array) {
+      if (checkCollisions(collectible, player)) {
+    // Player is within collision distance of collectible
+        console.log("Collected");
+        scores += collectible.score;
+    // Player has collected this gem, so remove it from array
+        array.splice(index, 1);
+            }
+        });
+    }
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
@@ -100,28 +118,11 @@ const Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        if(player.update() === -35) {
-        // Reset the player position!
-        player.y = 390;
-        }
+        player.update();
+        allCollectibles.forEach(function(collectible) {
+        collectible.update(dt);
+        });
     }
-
-    /* This function checks collision between two objects obj1 and obj2 and 
-     * returns a boolean value. This function is used by checkCollisionWithEnemy and
-     * checkScores function.
-     */
-    function checkCollisions(object1, object2) {
-        if (object1.x < object2.x + object2.width &&
-            object1.x + object1.width > object2.x &&
-            object1.y < object2.y + object2.height &&
-            object1.height + object1.y > object2.y) {
-            console.log("Collision detected");
-        return true;
-    } else {
-      return false;
-        }
-    }
-
     /* This function is called by the update function and loops through
      * all the enemies to find out if player has collided with any one 
      * of them.
@@ -137,28 +138,21 @@ const Engine = (function(global) {
             }
         });
     }
-
-    /* This function is called by the update method. It checks if 
-     * the player has reached the water or has collected any gems
+    /* This function checks collision between two objects obj1 and obj2 and 
+     * returns a boolean value. This function is used by checkCollisionWithEnemy and
+     * checkScores function.
      */
-    function checkScores() {
-    // If player has reached the water then add scores and reset player
-    if (player.y < 61) {
-        scores += 200;
-        resetPlayer();
-    }
-    // Check all gems if player is within collision distance
-    allCollectibles.forEach(function(collectible, index, array) {
-      if (checkCollisions(collectible, player)) {
-    // Player is within collision distance of collectible
-        console.log("Collected");
-        scores += collectible.score;
-    // Player has collected this gem, so remove it from array
-        array.splice(index, 1);
+    function checkCollisions(object1, object2) {
+        if (object1.x < object2.x + object2.width &&
+            object1.x + object1.width > object2.x &&
+            object1.y < object2.y + object2.height &&
+            object1.height + object1.y > object2.y) {
+            console.log("Collision detected");
+        return true;
+    } else {
+      return false;
         }
-        });
     }
-
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
@@ -180,15 +174,11 @@ const Engine = (function(global) {
         'images/stone-block.png', // Row 7 of 8 of stone
         'images/stone-block.png', // Row 8 of 8 of stone
         'images/grass-block.png', // Row 1 of 2 of grass
-        'images/grass-block.png', // Row 2 of 2 of grass
+        'images/grass-block.png' // Row 2 of 2 of grass
             ],
-            numRows = 10,
+            numRows = 11,
             numCols = numColumns,
             row, col;
-
-        // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
          * portion of the "grid"
@@ -205,7 +195,6 @@ const Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
         renderEntities();
         renderCollectibles();
         renderLifeLeft();
@@ -226,8 +215,6 @@ const Engine = (function(global) {
 
         player.render();
     }
-
-
     // Function to render life left  of the player
     function renderLifeLeft() {
         const lifeImage = "images/heart-small.png";
@@ -240,7 +227,6 @@ const Engine = (function(global) {
         ctx.strokeText(lifeLeft, 1040, 92);
         ctx.fillText(lifeLeft, 1040, 92);
     }
-    
     // Function to render score scored by the player.
     function renderScore() {
         const scoreImage = "images/star-small.png";
@@ -253,8 +239,6 @@ const Engine = (function(global) {
         ctx.strokeText(scores, 1140, 95);
         ctx.fillText(scores, 1140, 95);
     }
-
-
     // Function to render all the gems
     function renderCollectibles() {
         allCollectibles.forEach(function(collectible) {
@@ -269,14 +253,12 @@ const Engine = (function(global) {
         resetPlayer();
         resetEnemies();
     }
-
     // Function to reset player position and collectibles.
     function resetPlayer() {
         player = new Player();
         resetCollectibles();
         resetEnemies();
     }
-
     // Function to reset collectibles
     function resetCollectibles() {
         let numberOfCollectibles = Math.max(Math.floor(Math.random() * 10), 5);
@@ -286,7 +268,6 @@ const Engine = (function(global) {
         allCollectibles.push(new Collectible(collectibleType));
         }
     }
-
     // Function to reset Enemies
      function resetEnemies() {
         allEnemies = [];
@@ -294,7 +275,6 @@ const Engine = (function(global) {
             allEnemies.push(new Enemy());
         }
     }
-
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
@@ -303,7 +283,7 @@ const Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
+        'images/bug.png',
         'images/char-boy.png',
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
@@ -317,12 +297,10 @@ const Engine = (function(global) {
 
     ]);
     Resources.onReady(init);
-
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
      */
     global.ctx = ctx;
-    ctx.imageSmoothingEnabled = false;
     ChoiceStart.style.display = 'none';
 })(this);};

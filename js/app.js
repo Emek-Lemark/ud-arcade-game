@@ -7,15 +7,21 @@ const playerWidth = 65;
 const playerHeight = 50;
 const numColumns = 13;
 const maxY = (tileHeight * 10) + (tileHeight / 2);
+// Variable to store collectible images
+const collectibleSprite = [
+    'images/gem-blue.png',
+    'images/gem-green.png',
+    'images/gem-orange.png'
+];
 
 // Enemies our player must avoid
 class Enemy {
-    constructor(x, y, speed) {
+    constructor() {
 // Variables applied to each of our instances go here,
 // we've provided one for you to get started
 // The image/sprite for our enemies, this uses
 // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/bug.png';
     this.x = -10;
     this.y = (Math.floor((Math.random() * 8)) * tileHeight) + tileHeight + (tileHeight / 2);
     this.speed = Math.max(Math.random(), 0.5);
@@ -44,12 +50,12 @@ class Enemy {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-    constructor(x, y) {
+    constructor() {
     this.sprite = 'images/char-boy.png';
 // Place player in the middle of the seventh tile from left horizontally
-    this.x = (tileWidth * 5.85) + (tileWidth / 2) - (playerWidth / 2);
+    this.x = (tileWidth * 6) + (tileWidth / 2) - (playerWidth / 2);
 // Place player in the middle of the tenth tile from top vertically
-    this.y = (tileHeight * 9.5) + (tileHeight / 2) - (playerHeight / 2);
+    this.y = (tileHeight * 10) + (tileHeight / 2) - (playerHeight / 2);
 // moveY and moveX for move direction, initially set to zero
     this.moveY = 0;
     this.moveX = 0;
@@ -99,20 +105,14 @@ class Player {
             }
         }
 }
-// Variable to store collectible images
-const collectibleSprite = [
-    'images/gem-blue.png',
-    'images/gem-green.png',
-    'images/gem-orange.png'
-];
 // Collectible class
 class Collectible {
     constructor(collectibleType) {
     // X and Y position of the gem
-    this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 2);
-    this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 2);
-    this.width = 50;
-    this.height = 40;
+    this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
+    this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
+    this.width = 60;
+    this.height = 60;
 
     // 50 points scored for blue, 100 for green and 150 for orange gem.
     this.score = (collectibleType + 1) * 50;
@@ -121,9 +121,9 @@ class Collectible {
 
     update(dt) {
     // Change collectible position 
-    if (Math.random() < 0.002) {
-        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 2);
-        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 2);
+    if (Math.random() < 0.001) {
+        this.x = (Math.floor((Math.random() * 8)) * tileWidth) + (tileWidth * 1.5);
+        this.y = (Math.floor((Math.random() * 8)) * tileHeight) + (tileHeight * 1.5);
     }
 }
 
@@ -171,48 +171,3 @@ window.addEventListener('keydown', function(e) {
         e.preventDefault();
     }
 }, false);
-
-
-//Choose your character
-let src1 = 'images/char-horn-girl.png';
-let src2 ='images/char-cat-girl.png';
-let src3 = 'images/char-boy.png';
-let src4 ='images/char-princess-girl.png';
-// Character Images
-
-let charImages = document.querySelectorAll(".char-image");
-    for(let i = 0; i < charImages.length; i++) {
-// Set the default Character Image
-    charImages[0].classList.add("active");
-// Loop over Character Images and Change the Selected one based on a 'Click' event
-    charImages[i].addEventListener("click", function() {
-// Change the player image
-    player.sprite = this.getAttribute("data-image");
-// Remove class `active`from all character images
-    charImages.forEach(function(image) {
-    image.classList.remove("active");
-    })
-// Add class `active` to the selected character image
-    this.classList.add("active");
-    });
-}
-
-function chooseCha1(c){
-  player.sprite=c;
-};
-
-function chooseCha2(c){
-  player.sprite=c;
-};
-
-function chooseCha3(c){
-  player.sprite=c;
-};
-
-function chooseCha4(c){
-  player.sprite=c;
-};
-
-function chooseCha5(c){
-  player.sprite=c;
-};
